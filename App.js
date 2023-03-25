@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState} from 'react'
+import { useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 
 export default function App() {
@@ -10,42 +10,45 @@ export default function App() {
   const [lastNumber, setLastNumber] = useState("")
 
 
-  function calculator(){
+  function calculator() {
     const splitNumbers = currentNumber.split(' ')
     const fistNumber = parseFloat(splitNumbers[0])
     const lastNumber = parseFloat(splitNumbers[2])
     const operator = splitNumbers[1]
-  
+
     // Faz ação referente tecla pressionada
-    switch(operator){
+    switch (operator) {
       case '+':
         setCurrentNumber((fistNumber + lastNumber).toString())
         return
-      case '-': 
+      case '-':
         setCurrentNumber((fistNumber - lastNumber).toString())
         return
       case 'x':
         setCurrentNumber((fistNumber * lastNumber).toString()) //corrigido
         return
-      case '/': 
+      case '/':
         setCurrentNumber((fistNumber / lastNumber).toString()) //corrigido
+        return
+      case '%': // Adiciona cálculo de porcentagem
+        setCurrentNumber(((fistNumber / 100) * lastNumber).toString())
         return
     }
   }
 
-  function handleInput(buttonPressed){
+  function handleInput(buttonPressed) {
     console.log(buttonPressed) // Mostra no Console a tecla pressionada
-    if(buttonPressed === '+' | buttonPressed === "-" | buttonPressed === "x" | buttonPressed === "/" ){
+    if (buttonPressed === '+' | buttonPressed === "-" | buttonPressed === "x" | buttonPressed === "/" | buttonPressed === "%") {
       setCurrentNumber(currentNumber + " " + buttonPressed + " ")
       return
     }
-    switch(buttonPressed){
+    switch (buttonPressed) {
       case 'DEL':
         setCurrentNumber(currentNumber.substring(0, (currentNumber.length - 1)))
         return
       case 'LIMPAR': // Limpa todo o conteúdo
-        setLastNumber("") 
-        setCurrentNumber("") 
+        setLastNumber("")
+        setCurrentNumber("")
         return
       case '=':
         setLastNumber(currentNumber + " = ")
@@ -71,15 +74,15 @@ export default function App() {
       {/* Area onde os botões são exibidos*/}
       <View style={styles.buttons}>
 
-        {buttons.map((button) => 
+        {buttons.map((button) =>
           button === '=' ? // Mapeamento do botão =
-        <TouchableOpacity onPress={() => handleInput(button)} key={button} style={[styles.button, {backgroundColor: '#1e1240'}]}>
-          <Text style={[styles.textButton, {color: "white", fontSize: 30}]}>{button}</Text>
-        </TouchableOpacity>
-          : // Mapeamento dos outros botões
-          <TouchableOpacity onPress={() => handleInput(button)} key={button} style={styles.button}>
-            <Text style={[styles.textButton, {color: typeof(button) === 'number' ? 'white': 'grey'}]}>{button}</Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleInput(button)} key={button} style={[styles.button, { backgroundColor: '#1e1240' }]}>
+              <Text style={[styles.textButton, { color: "white", fontSize: 30 }]}>{button}</Text>
+            </TouchableOpacity>
+            : // Mapeamento dos outros botões
+            <TouchableOpacity onPress={() => handleInput(button)} key={button} style={styles.button}>
+              <Text style={[styles.textButton, { color: typeof (button) === 'number' ? 'white' : 'grey' }]}>{button}</Text>
+            </TouchableOpacity>
         )}
       </View>
     </View>
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
     padding: 12,
     textAlign: "right"
   },
-  historyText:{
+  historyText: {
     color: "#7c7c7c",
     fontSize: 20,
     marginRight: 10,
@@ -117,7 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#3d0075',
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 90, 
+    minWidth: 90,
     minHeight: 90,
     flex: 2,
   },
@@ -125,5 +128,5 @@ const styles = StyleSheet.create({
     color: "#7c7c7c",
     fontSize: 20,
     color: "white",
-  } 
+  }
 });
