@@ -54,7 +54,11 @@ export default function App() {
         setLastNumber(currentNumber + " = ")
         calculator()
         return
-      case '+/-':
+      case '+/-': // Adiciona inversão de sinal
+        if (currentNumber !== '') {
+          const newValue = parseFloat(currentNumber) * -1
+          setCurrentNumber(newValue.toString())
+        }
         return
     }
 
